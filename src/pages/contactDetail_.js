@@ -61,13 +61,12 @@ const ContactDetail = ({ navigation }) => {
     const deleteContact = () => {
         axios.delete(linkCRUD.link + 'contact/' + store.getState().Id)
             .then(res => {
-                //console.log(res);
-                //console.log(res.data);
-                // console.log("data nih brooo", res.data.data);
                 ToastAndroid.show("Contact Deleted", ToastAndroid.SHORT)
-
+                let delay = setTimeout(() => {
+                    clearTimeout(delay)
+                    navigation.goBack();
+                }, 1000);
             }).catch(error => {
-                //console.log('test', error.response.data)
                 let errMsg = error.response.data.message
                 ToastAndroid.show(errMsg, ToastAndroid.SHORT)
             })
@@ -123,8 +122,6 @@ const ContactDetail = ({ navigation }) => {
             }
         })
             .then(res => {
-                //console.log(res);
-                //console.log('data contactid', res.data.data);
                 let dataEdit = res.data.data
                 store.dispatch(setFirstName(dataEdit.firstName))
                 store.dispatch(setLastName(dataEdit.lastName))
@@ -138,7 +135,6 @@ const ContactDetail = ({ navigation }) => {
                     photoUpd: store.getState().Photo,
                 });
             }).catch(error => {
-                //console.log('err123', error.response.data)
                 let errMsg = error.response.data.message
                 ToastAndroid.show(errMsg, ToastAndroid.SHORT)
             })
@@ -160,7 +156,6 @@ const ContactDetail = ({ navigation }) => {
         if (isEdit === true) {
             return (
                 <>
-                    {/* <View style={styleGlobal.greyLine} /> */}
                     <View style={styleGlobal.viewInputBoxText}>
                         <TextInput
                             style={styleGlobal.inputBoxText}

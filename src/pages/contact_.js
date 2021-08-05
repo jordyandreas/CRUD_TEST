@@ -1,15 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import {
-    ScrollView,
     Text,
     View,
-    Dimensions,
     FlatList,
     TouchableOpacity,
-    Alert,
     Image,
     ActivityIndicator,
-    RefreshControl,
     Modal,
     TextInput,
     ToastAndroid
@@ -66,7 +62,6 @@ const Contact = ({ navigation }) => {
                 setDataContact(response);
                 setIsLoading(false);
             }).catch(error => {
-                //console.log('err123', error.message)
                 let errMsg = error.response.data.message;
                 ToastAndroid.show(errMsg, ToastAndroid.SHORT);
             })
@@ -78,8 +73,6 @@ const Contact = ({ navigation }) => {
         } else {
             axios.get(linkCRUD.link + 'contact/' + form.contactID)
                 .then(res => {
-                    //console.log(res);
-                    //console.log('data contactid', res.data);
                     let dataSearch = res.data.data
                     store.dispatch(setId(dataSearch.id));
                     store.dispatch(setFirstName(dataSearch.firstName));
@@ -91,8 +84,6 @@ const Contact = ({ navigation }) => {
                         contactID: '',
                     });
                 }).catch(error => {
-                    // console.log('err123', error.message)
-                    // console.log('err1234', error.response)
                     let errMsg = error.response.data.message
                     ToastAndroid.show(errMsg, ToastAndroid.SHORT)
                 })
@@ -146,7 +137,6 @@ const Contact = ({ navigation }) => {
             }
         })
             .then(res => {
-                // console.log('msg', res.data)
                 ToastAndroid.show('Contact saved', ToastAndroid.SHORT)
                 setForm({
                     firstName: '',
@@ -158,8 +148,6 @@ const Contact = ({ navigation }) => {
                 getData();
             })
             .catch(error => {
-                //console.log('erorr', error.response)
-                //console.log('erorr2', error.message)
                 let errMsg = error.response.data.message
                 ToastAndroid.show(errMsg, ToastAndroid.SHORT)
             });
@@ -281,14 +269,12 @@ const Contact = ({ navigation }) => {
             {isLoading === true ?
                 <ActivityIndicator animating={isLoading} color={'#15ADE4'} style={styleGlobal.loading} /> :
                 <FlatList
-                    // scrollEnabled={false}
                     data={dataContact}
                     keyExtractor={(key, index) => key + index.toString()}
                     renderItem={({ item, index }) => {
                         const FullName = `${item.firstName} ${item.lastName}`
                         return (
                             <TouchableOpacity style={styleGlobal.btnViewDetail}
-                                // onPress={() => { this.props.navigation.navigate('ContactDetail') }}>
                                 onPress={() => goToDetail(index)}>
                                 <View style={styleGlobal.viewImageContact}>
                                     {item.photo === "N/A" ?
